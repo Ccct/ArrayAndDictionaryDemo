@@ -46,6 +46,8 @@
     
     
     
+    
+    //  增
     //追加对象
     [array1 arrayByAddingObject:@"demo"];
     
