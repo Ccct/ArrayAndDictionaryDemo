@@ -25,10 +25,12 @@
  数组的最后一个元素一定是《nil》表示结束,这些集合类只能收集cocoa对象（NSOjbect对象），
  如果想保存一些原始的C数据（例如，int, float, double, BOOL等），则需要将这些原始的C数据封装成NSNumber类型
  */
+#pragma mark - Array
 - (void)ArrayMethond{
     
     //初始化
     NSArray *array1 = [NSArray arrayWithObjects:@"one",@"two",@"three",@"four", nil];
+    NSArray *array1s = @[@"one",@"two"];
     
     //???
 //    NSArray *array2 = [[NSArray alloc] initWithObjects:@"" count:2];
@@ -156,11 +158,12 @@
         NSLog(@"idx: %lu,obj: %@",(unsigned long)idx,obj);
     }];
     
-    // ???
     //快速遍历 2
     NSMutableArray *myArray = [NSMutableArray arrayWithObjects:@"a", @"ab",  @"abc", nil];
     NSMutableArray *myArrayCount = [NSMutableArray arrayWithCapacity:1];
     
+    //参数NSEnumerationConcurrent：底层通过GCD来处理并发执行事宜，具体实现可能会用到dispatch group。也就是说，这个会用多线程来并发实现，并不保证按照顺序执行，但效率肯定是杠杠的！
+    //参数NSEnumerationReverse ： 倒序便利（按顺序）
     [myArray enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id obj, NSUInteger idx, BOOL *stop){
         
          [myArrayCount addObject:[NSNumber numberWithInt:[obj length]]];
@@ -296,10 +299,14 @@
     NSLog(@"%lu", index1);
 }
 
+#pragma mark - MutableArray
 - (void)MutableArrayMethond{
     
     //初始化
     NSMutableArray *mutArr1 = [[NSMutableArray alloc] initWithObjects:@"obj1",@"obj2",@"obj3",@"obj4", nil];
+    NSMutableArray *mutArr1s = [[NSMutableArray alloc] initWithArray:@[@"obj1",@"obj2"] copyItems:YES];
+    NSMutableArray *mutArr1ss = [[NSMutableArray alloc] initWithArray:@[@"obj1",@"obj2"]];
+    
     
     //初始化化数组对象容量
     NSMutableArray *demoOneCapacity = [NSMutableArray arrayWithCapacity:3];
