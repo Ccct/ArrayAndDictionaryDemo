@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //整理思路： 初始化、增、删、改、遍历、对比
+    [self DictionaryDemo];
 }
 
 /**
@@ -431,6 +432,90 @@
         return (NSComparisonResult)NSOrderedSame;
     }];
     NSLog(@"指定块比较数组 %@", demoThreeArray);
+}
+
+- (void)DictionaryDemo{
+    
+    //初始化
+    NSDictionary *dic1 = [[NSDictionary alloc]init];
+    
+    NSDictionary *dic2 = [NSDictionary dictionary];
+    
+    NSDictionary *dic3 = [NSDictionary dictionaryWithObject:@"obj" forKey:@"key"];
+    NSLog(@"dic3:%@",dic3);
+
+    NSArray *keyArr = @[@"key1",@"key2",@"key3"];
+    NSArray *ValArr = @[@"value1",@"value2",@"value3"];
+    NSDictionary *dic4 = [NSDictionary dictionaryWithObjects:keyArr forKeys:ValArr];
+    NSLog(@"dic4:%@",dic4);
+    
+    NSDictionary *dic5 = @{@"key1":@"value1",@"key2":@"value2",@"key3":@"value3"};
+    
+    //获得字典中所有key
+    NSArray *allKey = dic5.allKeys;
+    NSLog(@"allKey:%@",allKey);
+    
+    //获得字典中所有value
+    NSArray *allValues = dic5.allValues;
+    NSLog(@"allValues:%@",allValues);
+
+    //判断字典中有无某个key
+    //方法1:
+    if([dic5 objectForKey:@"key0000"]){
+        NSLog(@"存在此key");
+    }else{
+        NSLog(@"不存在此key");
+    }
+    //方法2:
+    if([[dic5 allKeys] containsObject:@"key2"]){
+        NSLog(@"存在此key");
+    }else{
+        NSLog(@"不存在此key");
+    }
+    
+    NSMutableDictionary *mutaDic1 = [[NSMutableDictionary alloc] initWithDictionary:dic1];
+    //增加
+    [mutaDic1 setValue:@"newValue" forKey:@"newKey"];
+    mutaDic1[@"newKey2"] = @"newValue2";
+    NSLog(@"mutaDic1:%@",mutaDic1);
+    
+    //删除
+//    [mutaDic1 removeAllObjects];
+//    [mutaDic1 removeObjectForKey:@"newKey"];
+    [mutaDic1 removeObjectsForKeys:@[@"newKey"]];
+    NSLog(@"mutaDic1:%@",mutaDic1);
+    
+    //改
+    //同“增加”
+    
+    
+    //取值：
+    
+    NSString *value = [mutaDic1 objectForKey:@"newKey2"];
+    NSString *value2 = mutaDic1[@"newKey2"];
+    NSString *value3 = [mutaDic1 valueForKey:@"newKey2"];
+    NSLog(@"value:%@",value);
+    NSLog(@"value2:%@",value2);
+    NSLog(@"value3:%@",value3);
+    
+    //以上 objectForKey 与 valueForKey，多数情况下是一样的，不同在于
+    //当key 是这样时 @"@newValue2", objectForKey 能正常取值，valueForKey会抛异常
+    NSString *value4 = [mutaDic1 objectForKey:@"@newKey2"];
+    NSLog(@"value4:%@",value4);
+    
+    //crach
+//    NSString *value5 = [mutaDic1 valueForKey:@"@newKey2"];
+
+    //遍历
+    [mutaDic1 enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        
+    }];
+    
+    //参数NSEnumerationConcurrent：底层通过GCD来处理并发执行事宜，具体实现可能会用到dispatch group。也就是说，这个会用多线程来并发实现，并不保证按照顺序执行，但效率肯定是杠杠的！
+    //参数NSEnumerationReverse ： 倒序便利（按顺序）
+    [mutaDic1 enumerateKeysAndObjectsWithOptions:NSEnumerationReverse usingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        
+    }];
 }
 
 @end
